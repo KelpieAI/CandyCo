@@ -3,7 +3,8 @@ import { ShoppingBag, UserRound } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-const PRIMARY_LINKS = [
+const MOBILE_LINKS = [
+  { to: '/', label: 'Home', accent: '#ede9e1' },
   { to: '/shop', label: 'Shop', accent: '#c8f535' },
   { to: '/products', label: 'Range', accent: '#c8f535' },
   { to: '/wholesale', label: 'Wholesale', accent: '#ede9e1' },
@@ -35,21 +36,23 @@ const itemVariants = {
   },
 }
 
-function HamburgerIcon({ open }: { open: boolean }) {
+function HamburgerIcon({ open, overlay = false }: { open: boolean; overlay?: boolean }) {
+  const barColor = overlay ? 'bg-off' : 'bg-void'
+
   return (
     <span className="relative flex h-5 w-6 flex-col items-center justify-center">
       <motion.span
-        className="absolute block h-[2px] w-6 origin-center bg-void"
+        className={`absolute block h-[2px] w-6 origin-center ${barColor}`}
         animate={open ? { rotate: 45, y: 0 } : { rotate: 0, y: -7 }}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       />
       <motion.span
-        className="absolute block h-[2px] w-6 origin-center bg-void"
+        className={`absolute block h-[2px] w-6 origin-center ${barColor}`}
         animate={open ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
         transition={{ duration: 0.2 }}
       />
       <motion.span
-        className="absolute block h-[2px] w-6 origin-center bg-void"
+        className={`absolute block h-[2px] w-6 origin-center ${barColor}`}
         animate={open ? { rotate: -45, y: 0 } : { rotate: 0, y: 7 }}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       />
@@ -57,7 +60,7 @@ function HamburgerIcon({ open }: { open: boolean }) {
   )
 }
 
-export function MobileNavMenu() {
+export function MobileNavMenu({ overlay = false }: { overlay?: boolean }) {
   const [open, setOpen] = useState(false)
   const location = useLocation()
 
@@ -92,7 +95,7 @@ export function MobileNavMenu() {
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
       >
-        <HamburgerIcon open={open} />
+        <HamburgerIcon open={open} overlay={overlay} />
       </button>
 
       <AnimatePresence>
@@ -125,13 +128,25 @@ export function MobileNavMenu() {
                 </motion.p>
 
                 <ul className="flex flex-col gap-1">
-                  {PRIMARY_LINKS.map((link, index) => {
-                    const active = location.pathname === link.to
+                  {MOBILE_LINKS.map((link, index) => {
+                    const active =
+                      link.to === '/'
+                        ? location.pathname === '/'
+                        : location.pathname === link.to
+
+                    function handleLinkClick(event: React.MouseEvent<HTMLAnchorElement>) {
+                      if (link.to === '/' && location.pathname === '/') {
+                        event.preventDefault()
+                        window.scrollTo({ top: 0, behavior: 'smooth' })
+                      }
+                      setOpen(false)
+                    }
+
                     return (
                       <motion.li key={link.to} variants={itemVariants}>
                         <Link
                           to={link.to}
-                          onClick={() => setOpen(false)}
+                          onClick={handleLinkClick}
                           className={`group flex items-center justify-between border-b border-[#1a1a1a] py-5 transition-colors ${
                             active ? 'text-acid' : 'text-off hover:text-acid'
                           }`}
