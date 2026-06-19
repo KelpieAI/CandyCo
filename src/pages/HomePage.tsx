@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import { productImagePath } from '@shared/productGallery'
 import { CustomCursor } from '../components/CustomCursor'
@@ -52,382 +53,110 @@ export function HomePage() {
 
       {/* ── HERO ── */}
       <div
-        style={{
-          marginTop: `${heroOffset}px`,
-          height: `calc(100vh - ${heroOffset}px)`,
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          position: 'relative',
-        }}
+        className="home-hero"
+        style={
+          {
+            marginTop: `${heroOffset}px`,
+            '--home-hero-offset': `${heroOffset}px`,
+          } as CSSProperties
+        }
       >
         {/* Divider */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            left: '50%',
-            width: '1px',
-            background: '#1e1e1e',
-            zIndex: 10,
-            pointerEvents: 'none',
-          }}
-        >
-          <div
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              background: '#080808',
-              border: '1px solid #1e1e1e',
-              padding: '8px 14px',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '8px',
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              letterSpacing: '0.16em',
-              color: '#555',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            or
-          </div>
+        <div className="home-hero__divider" aria-hidden>
+          <div className="home-hero__divider-pill">or</div>
         </div>
 
         {/* ── CONSUMER LANE ── */}
-        <div
-          style={{
-            background: '#080808',
-            padding: '60px 56px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            position: 'relative',
-            overflow: 'hidden',
-            height: '100%',
-          }}
-        >
-          <div
-            aria-hidden="true"
-            style={{
-              position: 'absolute',
-              bottom: '-20px',
-              right: '-10px',
-              fontSize: '180px',
-              lineHeight: 1,
-              opacity: 0.05,
-              pointerEvents: 'none',
-              userSelect: 'none',
-              filter: 'grayscale(1)',
-              letterSpacing: '-10px',
-              zIndex: 0,
-            }}
-          >
+        <div className="home-hero__lane home-hero__lane--consumer">
+          <div aria-hidden="true" className="home-hero__ghost home-hero__ghost--consumer">
             🍬🍭🥤
           </div>
 
-          <div style={{ position: 'relative', zIndex: 1 }}>
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '8px',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: '0.2em',
-                color: '#555',
-                border: '1px solid #1e1e1e',
-                padding: '5px 12px',
-                marginBottom: '32px',
-              }}
-            >
-              <div
-                style={{
-                  width: '5px',
-                  height: '5px',
-                  borderRadius: '50%',
-                  background: '#ff2d78',
-                  flexShrink: 0,
-                }}
-              />
+          <div className="home-hero__block">
+            <div className="home-hero__tag">
+              <div className="home-hero__tag-pip home-hero__tag-pip--consumer" />
               For sweet lovers
             </div>
 
-            <h2
-              style={{
-                fontFamily: 'var(--font-bebas)',
-                fontSize: 'clamp(48px, 5.5vw, 84px)',
-                lineHeight: 0.9,
-                letterSpacing: '0.01em',
-                color: '#ede9e1',
-                margin: '0 0 12px 0',
-              }}
-            >
+            <h2 className="home-hero__headline">
               Buying
               <br />
-              for <em style={{ fontStyle: 'normal', color: '#ff2d78' }}>yourself?</em>
+              for <em className="home-hero__em home-hero__em--consumer">yourself?</em>
             </h2>
 
-            <p
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '10px',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: '0.12em',
-                color: '#555',
-                lineHeight: 1.8,
-                margin: '16px 0 0 0',
-              }}
-            >
+            <p className="home-hero__sub">
               Browse the range. Add to basket.
               <br />
               Free delivery over £50.
             </p>
           </div>
 
-          <div style={{ position: 'relative', zIndex: 1 }}>
-            <div style={{ display: 'flex', gap: '2px', marginBottom: '24px' }}>
+          <div className="home-hero__block">
+            <div className="home-hero__strip">
               {miniProducts.map((p) => (
-                <div
-                  key={p.alt}
-                  style={{
-                    flex: 1,
-                    background: '#111',
-                    border: '1px solid #1e1e1e',
-                    padding: '12px 8px',
-                    textAlign: 'center',
-                  }}
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      height: '64px',
-                      marginBottom: '4px',
-                    }}
-                  >
-                    <ProductImage
-                      src={p.image}
-                      alt={p.alt}
-                      style={{ maxHeight: '64px', maxWidth: '100%', width: 'auto' }}
-                    />
+                <div key={p.alt} className="home-hero__strip-item">
+                  <div className="home-hero__strip-img">
+                    <ProductImage src={p.image} alt={p.alt} />
                   </div>
-                  <span
-                    style={{
-                      fontFamily: 'var(--font-bebas)',
-                      fontSize: '16px',
-                      color: '#c8f535',
-                    }}
-                  >
-                    {p.price}
-                  </span>
+                  <span className="home-hero__price">{p.price}</span>
                 </div>
               ))}
             </div>
 
-            <Link
-              to="/shop"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '10px',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '10px',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: '0.14em',
-                background: '#ff2d78',
-                color: '#fff',
-                padding: '16px 28px',
-                textDecoration: 'none',
-              }}
-            >
+            <Link to="/shop" className="home-hero__cta home-hero__cta--consumer">
               Shop Drop 001 →
             </Link>
           </div>
         </div>
 
         {/* ── TRADE LANE ── */}
-        <div
-          style={{
-            background: '#111111',
-            padding: '60px 56px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            position: 'relative',
-            overflow: 'hidden',
-            height: '100%',
-          }}
-        >
-          <div
-            aria-hidden="true"
-            style={{
-              position: 'absolute',
-              bottom: '-40px',
-              right: '-10px',
-              fontFamily: 'var(--font-bebas)',
-              fontSize: '320px',
-              lineHeight: 1,
-              color: 'transparent',
-              WebkitTextStroke: '1px rgba(200,245,53,0.05)',
-              pointerEvents: 'none',
-              userSelect: 'none',
-              zIndex: 0,
-            }}
-          >
+        <div className="home-hero__lane home-hero__lane--trade">
+          <div aria-hidden="true" className="home-hero__ghost home-hero__ghost--trade">
             £
           </div>
 
-          <div style={{ position: 'relative', zIndex: 1 }}>
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '8px',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: '0.2em',
-                color: '#555',
-                border: '1px solid #1e1e1e',
-                padding: '5px 12px',
-                marginBottom: '32px',
-              }}
-            >
-              <div
-                style={{
-                  width: '5px',
-                  height: '5px',
-                  borderRadius: '50%',
-                  background: '#c8f535',
-                  flexShrink: 0,
-                }}
-              />
+          <div className="home-hero__block">
+            <div className="home-hero__tag">
+              <div className="home-hero__tag-pip home-hero__tag-pip--trade" />
               For retailers &amp; traders
             </div>
 
-            <h2
-              style={{
-                fontFamily: 'var(--font-bebas)',
-                fontSize: 'clamp(48px, 5.5vw, 84px)',
-                lineHeight: 0.9,
-                letterSpacing: '0.01em',
-                color: '#ede9e1',
-                margin: '0 0 12px 0',
-              }}
-            >
+            <h2 className="home-hero__headline">
               Stocking
               <br />
-              your <em style={{ fontStyle: 'normal', color: '#c8f535' }}>shop?</em>
+              your <em className="home-hero__em home-hero__em--trade">shop?</em>
             </h2>
 
-            <p
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '10px',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: '0.12em',
-                color: '#555',
-                lineHeight: 1.8,
-                margin: '16px 0 0 0',
-              }}
-            >
+            <p className="home-hero__sub">
               Trade pricing. Bulk orders.
               <br />
               Repeat accounts. No fuss.
             </p>
           </div>
 
-          <div style={{ position: 'relative', zIndex: 1 }}>
-            <div style={{ display: 'flex', gap: 0, marginBottom: '32px' }}>
+          <div className="home-hero__block">
+            <div className="home-hero__stats">
               {[
                 { num: '20', suffix: '+', label: 'Years trading' },
                 { num: '1', suffix: 'kg', label: 'Min order' },
                 { num: '50', suffix: '+', label: 'Product lines' },
-              ].map((s, i, arr) => (
-                <div
-                  key={i}
-                  style={{
-                    flex: 1,
-                    paddingRight: i < arr.length - 1 ? '20px' : 0,
-                    marginRight: i < arr.length - 1 ? '20px' : 0,
-                    borderRight: i < arr.length - 1 ? '1px solid #1e1e1e' : 'none',
-                  }}
-                >
-                  <div
-                    style={{
-                      fontFamily: 'var(--font-bebas)',
-                      fontSize: '40px',
-                      color: '#ede9e1',
-                      lineHeight: 1,
-                      marginBottom: '2px',
-                    }}
-                  >
+              ].map((s) => (
+                <div key={s.label} className="home-hero__stat">
+                  <div className="home-hero__stat-num">
                     {s.num}
-                    <em style={{ fontStyle: 'normal', color: '#c8f535', fontSize: '0.65em' }}>
-                      {s.suffix}
-                    </em>
+                    <em>{s.suffix}</em>
                   </div>
-                  <div
-                    style={{
-                      fontFamily: 'var(--font-mono)',
-                      fontSize: '7px',
-                      fontWeight: 700,
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.14em',
-                      color: '#555',
-                    }}
-                  >
-                    {s.label}
-                  </div>
+                  <div className="home-hero__stat-label">{s.label}</div>
                 </div>
               ))}
             </div>
 
-            <Link
-              to="/wholesale"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '10px',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '10px',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: '0.14em',
-                background: '#c8f535',
-                color: '#080808',
-                padding: '16px 28px',
-                textDecoration: 'none',
-                marginBottom: '12px',
-              }}
-            >
+            <Link to="/wholesale" className="home-hero__cta home-hero__cta--trade">
               Open Trade Account →
             </Link>
 
-            <p
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '8px',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: '0.14em',
-                color: '#555',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                margin: '12px 0 0 0',
-              }}
-            >
-              <span style={{ color: '#c8f535' }}>⚡</span>
+            <p className="home-hero__note">
+              <span>⚡</span>
               We respond within 24 hours
             </p>
           </div>
