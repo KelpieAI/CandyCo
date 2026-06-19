@@ -3,13 +3,13 @@ import { LOGO_SRC } from './VideoHero'
 import { NavActions } from './ui/NavActions'
 import { MobileNavMenu } from './ui/MobileNavMenu'
 import { NavPillGroup } from './ui/NavPillGroup'
-import { NavPillLink } from './ui/NavPillLink'
 
 interface NavProps {
   overlay?: boolean
+  topOffset?: number
 }
 
-export function Nav({ overlay = false }: NavProps) {
+export function Nav({ overlay = false, topOffset = 0 }: NavProps) {
   const location = useLocation()
 
   function handleLogoClick(event: React.MouseEvent<HTMLAnchorElement>) {
@@ -21,11 +21,12 @@ export function Nav({ overlay = false }: NavProps) {
 
   return (
     <header
-      className={`nav fixed top-0 right-0 left-0 z-[500] ${
+      className={`nav fixed right-0 left-0 z-[500] ${
         overlay
           ? 'nav--overlay'
           : 'nav--solid border-b-2 border-[#ff4d8f] bg-electric shadow-[0_8px_32px_rgba(255,45,120,0.35)]'
       }`}
+      style={{ top: topOffset }}
     >
       {overlay ? (
         <nav className="nav__overlay-bar page-gutter-x relative flex flex-col items-center pt-5 pb-4 sm:pt-6">
@@ -46,11 +47,8 @@ export function Nav({ overlay = false }: NavProps) {
             />
           </Link>
 
-          <div className="hidden sm:flex sm:items-center sm:gap-2">
+          <div className="hidden sm:block">
             <NavPillGroup overlay />
-            <NavPillLink to="/experience" variant="range" overlay>
-              Experience
-            </NavPillLink>
           </div>
         </nav>
       ) : (
@@ -63,11 +61,8 @@ export function Nav({ overlay = false }: NavProps) {
             CANDY<em className="text-acid not-italic">CO</em>
           </Link>
 
-          <div className="hidden sm:flex sm:items-center sm:gap-2">
+          <div className="hidden sm:block">
             <NavPillGroup />
-            <NavPillLink to="/experience" variant="range">
-              Experience
-            </NavPillLink>
           </div>
 
           <div className="hidden sm:block">

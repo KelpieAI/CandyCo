@@ -28,7 +28,7 @@ export function ProductStage({ productIndex, animation, scrambledName }: Product
           <ProductImage
             src={product.image}
             alt={product.name}
-            className="max-h-full w-auto"
+            className="mx-auto max-h-full w-auto"
           />
         </div>
         <span className="font-bebas mt-3 block min-h-[1.1em] text-[clamp(36px,6vw,80px)] leading-none tracking-wide text-off">

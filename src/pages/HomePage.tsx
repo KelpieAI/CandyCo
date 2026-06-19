@@ -1,30 +1,45 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { productImagePath } from '@shared/productGallery'
 import { CustomCursor } from '../components/CustomCursor'
 import { Nav } from '../components/Nav'
+import { ProductImage } from '../components/ProductImage'
+import { ScrollExperience } from '../components/ScrollExperience'
+import { TradeBanner, TRADE_BANNER_HEIGHT, useTradeBanner } from '../components/TradeBanner'
 
+/** Transparent removebg assets — avoids multiply blend on dark strip cells */
 const miniProducts = [
-  { emoji: '🥤', price: '£6' },
-  { emoji: '🍓', price: '£6' },
-  { emoji: '🫐', price: '£6' },
-  { emoji: '🫧', price: '£6' },
-  { emoji: '🟡', price: '£4+' },
+  {
+    image: productImagePath('imgi_13_img_3SKGJAZD0F9BCAFTAXX57K4SBB.png'),
+    alt: 'Cola Bottles',
+    price: '£6',
+  },
+  {
+    image: productImagePath('imgi_15_img_17J92W6ZBJ8W5RYH5WSS4F2HYQ.png'),
+    alt: 'Strawberries',
+    price: '£6',
+  },
+  {
+    image: productImagePath('imgi_10_img_070JV3S3D99HJ9H2WFKYV47B8J.png'),
+    alt: 'Blue Raspberry',
+    price: '£6',
+  },
+  {
+    image: productImagePath('imgi_14_img_5TQWDVF5TX88NA7J0FJJNFGQK9.png'),
+    alt: 'Fizzy Rings',
+    price: '£6',
+  },
+  {
+    image: productImagePath('imgi_16_img_0YC962MEVA9BNTMK76EHEPKZ90.png'),
+    alt: 'Sour Belts',
+    price: '£4+',
+  },
 ]
 
 export function HomePage() {
-  const [bannerVisible, setBannerVisible] = useState(() => {
-    if (typeof window === 'undefined') return true
-    return sessionStorage.getItem('candyco_banner_dismissed') !== 'true'
-  })
-
-  const handleDismiss = () => {
-    setBannerVisible(false)
-    sessionStorage.setItem('candyco_banner_dismissed', 'true')
-  }
+  const { visible: bannerVisible, dismiss: handleDismiss, height: bannerH } =
+    useTradeBanner()
 
   // Nav height from CSS var: 72px mobile, 80px desktop. Use 80px for calculation.
-  // Banner height: 36px
-  const bannerH = bannerVisible ? 36 : 0
   const navH = 80
   const heroOffset = bannerH + navH
 
@@ -32,88 +47,8 @@ export function HomePage() {
     <div style={{ background: '#080808', minHeight: '100vh' }}>
       <CustomCursor />
 
-      {/* ── TRADE BANNER ── */}
-      {bannerVisible && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: 600,
-            background: '#c8f535',
-            height: '36px',
-            padding: '0 40px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <p
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '9px',
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              letterSpacing: '0.16em',
-              color: '#080808',
-              margin: 0,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-            }}
-          >
-            🤝 Are you a retailer or market trader? Open a wholesale account for trade
-            pricing and bulk orders.
-          </p>
-          <div
-            style={{
-              display: 'flex',
-              gap: '8px',
-              alignItems: 'center',
-              flexShrink: 0,
-            }}
-          >
-            <Link
-              to="/wholesale"
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '9px',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: '0.14em',
-                background: '#080808',
-                color: '#c8f535',
-                padding: '6px 14px',
-                textDecoration: 'none',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              Open Trade Account →
-            </Link>
-            <button
-              onClick={handleDismiss}
-              style={{
-                fontSize: '12px',
-                color: 'rgba(8,8,8,0.4)',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                fontFamily: 'var(--font-mono)',
-                padding: '0 4px',
-                lineHeight: 1,
-              }}
-            >
-              ✕
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* ── NAV — offset by banner if visible ── */}
-      <div style={{ paddingTop: `${bannerH}px` }}>
-        <Nav />
-      </div>
+      <TradeBanner visible={bannerVisible} onDismiss={handleDismiss} />
+      <Nav topOffset={bannerVisible ? TRADE_BANNER_HEIGHT : 0} />
 
       {/* ── HERO ── */}
       <div
@@ -256,9 +191,9 @@ export function HomePage() {
 
           <div style={{ position: 'relative', zIndex: 1 }}>
             <div style={{ display: 'flex', gap: '2px', marginBottom: '24px' }}>
-              {miniProducts.map((p, i) => (
+              {miniProducts.map((p) => (
                 <div
-                  key={i}
+                  key={p.alt}
                   style={{
                     flex: 1,
                     background: '#111',
@@ -267,9 +202,21 @@ export function HomePage() {
                     textAlign: 'center',
                   }}
                 >
-                  <span style={{ fontSize: '26px', display: 'block', marginBottom: '4px' }}>
-                    {p.emoji}
-                  </span>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      height: '64px',
+                      marginBottom: '4px',
+                    }}
+                  >
+                    <ProductImage
+                      src={p.image}
+                      alt={p.alt}
+                      style={{ maxHeight: '64px', maxWidth: '100%', width: 'auto' }}
+                    />
+                  </div>
                   <span
                     style={{
                       fontFamily: 'var(--font-bebas)',
@@ -486,6 +433,8 @@ export function HomePage() {
           </div>
         </div>
       </div>
+
+      <ScrollExperience />
     </div>
   )
 }

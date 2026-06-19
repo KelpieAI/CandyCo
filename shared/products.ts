@@ -30,7 +30,7 @@ export const products: Product[] = [
     id: 'drop001-strawberry',
     slug: 'fizzy-strawberries',
     emoji: '🍓',
-    image: productImagePath('imgi_8_img_0QH1KXEZMC8AEVNGD5W458HD7P.png'),
+    image: productImagePath('imgi_15_img_17J92W6ZBJ8W5RYH5WSS4F2HYQ.png'),
     name: 'FIZZY STRAWBERRIES',
     sub: '1KG TUB · CLASSIC RANGE',
     price: '£6',
@@ -122,14 +122,13 @@ export const scatterItems = [
 ]
 
 export const SCENES = [
-  { start: 0, end: 0.1 },
-  { start: 0.1, end: 0.24 },
-  { start: 0.24, end: 0.38 },
-  { start: 0.38, end: 0.52 },
-  { start: 0.52, end: 0.66 },
-  { start: 0.66, end: 0.8 },
-  { start: 0.8, end: 0.9 },
-  { start: 0.9, end: 1.0 },
+  { start: 0, end: 0.156 },
+  { start: 0.156, end: 0.311 },
+  { start: 0.311, end: 0.467 },
+  { start: 0.467, end: 0.622 },
+  { start: 0.622, end: 0.778 },
+  { start: 0.778, end: 0.889 },
+  { start: 0.889, end: 1.0 },
 ]
 
 export const SCENE_COUNT = SCENES.length

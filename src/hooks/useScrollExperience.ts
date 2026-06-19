@@ -1,7 +1,6 @@
 import {
   useMotionValueEvent,
   useScroll,
-  useTransform,
   type MotionValue,
 } from 'framer-motion'
 import { useCallback, useEffect, useRef, useState } from 'react'
@@ -44,18 +43,6 @@ export function useScrollExperience(trackRef: React.RefObject<HTMLElement | null
   const { scrollYProgress } = useScroll({
     target: trackRef,
     offset: ['start start', 'end end'],
-  })
-
-  const introOpacity = useTransform(scrollYProgress, (prog) => {
-    if (prog >= SCENES[0].end) return 0
-    const sp = sceneLocalProgress(prog, 0)
-    return Math.max(1 - sp * 3, 0)
-  })
-
-  const introTranslateY = useTransform(scrollYProgress, (prog) => {
-    if (prog >= SCENES[0].end) return 0
-    const sp = sceneLocalProgress(prog, 0)
-    return sp * -40
   })
 
   const [state, setState] = useState<ScrollExperienceState>({
@@ -101,28 +88,8 @@ export function useScrollExperience(trackRef: React.RefObject<HTMLElement | null
       const scene = getScene(prog, SCENES)
       const sp = sceneLocalProgress(prog, scene)
 
-      if (scene === 0) {
-        currentProductRef.current = -1
-        setState((prev) => ({
-          ...prev,
-          activeScene: scene,
-          colourWashBackground: '#080808',
-          ghostStroke: '1px rgba(200,245,53,0.06)',
-          productIndex: -1,
-          productAnimation: defaultProductAnim,
-          scrambledName: products[0].name,
-          productStripOpacity: 0,
-          scatterOpacity: 0,
-          scatterItems: Array(6).fill({ opacity: 0, scale: 0.3 }),
-          ctaOpacity: 0,
-          ctaPointerEvents: false,
-          tickerOpacity: 0,
-        }))
-        return
-      }
-
-      if (scene >= 1 && scene <= 5) {
-        const productIndex = scene - 1
+      if (scene >= 0 && scene <= 4) {
+        const productIndex = scene
         swapProduct(productIndex)
         setState((prev) => ({
           ...prev,
@@ -138,7 +105,7 @@ export function useScrollExperience(trackRef: React.RefObject<HTMLElement | null
         return
       }
 
-      if (scene === 6) {
+      if (scene === 5) {
         currentProductRef.current = -1
         setState({
           activeScene: scene,
@@ -187,8 +154,6 @@ export function useScrollExperience(trackRef: React.RefObject<HTMLElement | null
 
   return {
     scrollYProgress,
-    introOpacity,
-    introTranslateY,
     ...state,
   }
 }

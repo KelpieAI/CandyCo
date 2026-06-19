@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
 import { BasketPage } from './pages/BasketPage'
-import { ExperiencePage } from './pages/ExperiencePage'
 import { HomePage } from './pages/HomePage'
 import { ShopPage } from './pages/ShopPage'
 import { ProductsPage } from './pages/ProductsPage'
@@ -10,7 +9,6 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/experience" element={<ExperiencePage />} />
       <Route path="/shop" element={<ShopPage />} />
       <Route path="/products" element={<ProductsPage />} />
       <Route path="/basket" element={<BasketPage />} />
